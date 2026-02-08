@@ -1,0 +1,8 @@
+github.com/OddEer0/errx v0.0.0-20260118170458-dfe9ae182598 h1:bzAvi26qLsThm6yeSvphXmam8Vx2HKbEL74UDu8HmlU=
+github.com/OddEer0/errx v0.0.0-20260118170458-dfe9ae182598/go.mod h1:swwxu/dSH7R4J5lCKjZZ/M2NnXjEg5Un1ZqIG6zDHhw=
+github.com/go-ozzo/ozzo-validation v3.6.0+incompatible h1:msy24VGS42fKO9K1vLz82/GeYW1cILu7Nuuj1N3BBkE=
+github.com/go-ozzo/ozzo-validation v3.6.0+incompatible/go.mod h1:gsEKFIVnabGBt6mXmxK0MoFy+cZoTJY6mu5Ll3LVLBU=
+github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
+github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
+golang.org/x/crypto v0.47.0 h1:V6e3FRj+n4dbpw86FJ8Fv7XVOql7TEwpHapKoMJ/GO8=
+golang.org/x/crypto v0.47.0/go.mod h1:ff3Y9VzzKbwSSEzWqJsJVBnWmRwRSHt/6Op5n9bQc4A=
