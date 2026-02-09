@@ -1,4 +1,4 @@
-package service
+package repository
 
 import "github.com/OddKuru/core-accounts/internal/domain/vo"
 

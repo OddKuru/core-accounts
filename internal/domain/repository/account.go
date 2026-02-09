@@ -19,5 +19,5 @@ type AccountQuery interface {
 	HasByName(ctx context.Context, name vo.LoginName) (bool, error)
 
 	GetById(ctx context.Context, id vo.ID) (*aggregate.Account, error)
-	GetByQuery(ctx context.Context, query rco.Query) (rco.DataWithPageCount[*aggregate.Account], error)
+	GetByQuery(ctx context.Context, query rco.Query) (*rco.DataWithPageCount[*aggregate.Account], error)
 }

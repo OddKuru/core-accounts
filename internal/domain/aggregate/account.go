@@ -98,7 +98,7 @@ func (a *Account) ChangePassword(password vo.HashedPassword, t time.Time) error 
 	if err := a.account.ChangePassword(password); err != nil {
 		return errors.Wrap(err, "[Account] account.SetPassword")
 	}
-	ev := event.NewAccountChangePassword(a.Account().ID(), t)
+	ev := event.NewAccountChangePassword(a.Account().ID(), password, t)
 	a.AddEvents(ev)
 
 	return nil

@@ -15,7 +15,7 @@ type Account struct {
 	email     vo.Email
 	role      vo.Role
 	password  vo.HashedPassword
-	version   int
+	version   uint
 	createdAt time.Time
 	updatedAt time.Time
 }
@@ -25,6 +25,7 @@ type AccountViewer interface {
 	Name() vo.LoginName
 	Email() vo.Email
 	Role() vo.Role
+	Password() vo.HashedPassword
 	UpdatedAt() time.Time
 	CreatedAt() time.Time
 }
@@ -35,7 +36,7 @@ func NewAccount(
 	email vo.Email,
 	password vo.HashedPassword,
 	role vo.Role,
-	version int,
+	version uint,
 	createdAt time.Time,
 	updatedAt time.Time,
 ) (*Account, error) {
@@ -77,7 +78,7 @@ func (a *Account) Password() vo.HashedPassword {
 	return a.password
 }
 
-func (a *Account) Version() int {
+func (a *Account) Version() uint {
 	return a.version
 }
 

@@ -79,17 +79,20 @@ func (a AccountChangeRole) Role() vo.Role        { return a.role }
 
 type AccountChangePassword struct {
 	id        vo.ID
+	value     vo.HashedPassword
 	timestamp time.Time
 }
 
-func NewAccountChangePassword(id vo.ID, t time.Time) AccountChangePassword {
+func NewAccountChangePassword(id vo.ID, pass vo.HashedPassword, t time.Time) AccountChangePassword {
 	return AccountChangePassword{
 		id:        id,
+		value:     pass,
 		timestamp: t,
 	}
 }
 
-func (a AccountChangePassword) ID() vo.ID            { return a.id }
-func (a AccountChangePassword) Type() Type           { return AccountChangePasswordType }
-func (a AccountChangePassword) Value() any           { return nil }
-func (a AccountChangePassword) Timestamp() time.Time { return a.timestamp }
+func (a AccountChangePassword) ID() vo.ID                   { return a.id }
+func (a AccountChangePassword) Type() Type                  { return AccountChangePasswordType }
+func (a AccountChangePassword) Value() any                  { return a.value }
+func (a AccountChangePassword) Timestamp() time.Time        { return a.timestamp }
+func (a AccountChangePassword) Password() vo.HashedPassword { return a.value }
