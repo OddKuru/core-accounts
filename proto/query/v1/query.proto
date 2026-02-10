@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package query;
+
+option go_package = "github.com/OddKuru/core-accounts/gogen/query/v1";
+
+enum QueryOrder {
+  ASK = 0;
+  DESK = 1;
+}
+
+message QueryData {
+  uint64 page = 1;
+  uint64 limit = 2;
+  string sort_by = 3;
+  QueryOrder order_by = 4;
+}

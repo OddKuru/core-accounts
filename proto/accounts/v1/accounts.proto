@@ -1,0 +1,103 @@
+syntax = "proto3";
+
+package accounts.v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+import "query/v1/query.proto";
+
+option go_package = "github.com/OddKuru/core-accounts/gogen/accounts/v1";
+
+message Id {
+  string id = 1;
+}
+
+message Account {
+  string id = 1;
+  string email = 2;
+  string name = 3;
+  string role = 4;
+  string updated_at = 5;
+  string created_at = 6;
+}
+
+message CreateAccountRequest {
+  string name = 1;
+  string email = 3;
+  string password = 5;
+}
+
+message UpdateNameByIdRequest {
+  string account_id = 1;
+  string name = 2;
+}
+
+message UpdateEmailByIdRequest {
+  string account_id = 1;
+  string email = 2;
+}
+
+message UpdateRoleByIdRequest {
+  string account_id = 1;
+  string role = 2;
+}
+
+message UpdatePasswordByIdRequest {
+  string account_id = 1;
+  string old_password = 2;
+  string new_password = 3;
+}
+
+message QueryAccountsResponse {
+  repeated Account accounts = 1;
+  uint64 page_count = 2;
+}
+
+service AccountsService {
+  rpc Create(CreateAccountRequest) returns (Account) {
+    option (google.api.http) = {
+      post: "v1/accounts"
+      body: "*"
+    };
+  }
+
+  rpc UpdateNameById(UpdateNameByIdRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "v1/accounts/name"
+      body: "*"
+    };
+  }
+
+  rpc UpdateEmailById(UpdateNameByIdRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "v1/accounts/email"
+      body: "*"
+    };
+  }
+
+  rpc UpdateRoleById(UpdateNameByIdRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "v1/accounts/role"
+      body: "*"
+    };
+  }
+
+  rpc UpdatePasswordById(UpdateNameByIdRequest) returns (google.protobuf.Empty) {
+    option (google.api.http) = {
+      put: "v1/accounts/password"
+      body: "*"
+    };
+  }
+
+  rpc GetAccountById(Id) returns (Account) {
+    option (google.api.http) = {
+      get: "v1/accounts/{id}"
+    };
+  }
+
+  rpc GetAccountsByQuery(query.QueryData) returns (QueryAccountsResponse) {
+    option (google.api.http) = {
+      get: "v1/accounts"
+    };
+  }
+}

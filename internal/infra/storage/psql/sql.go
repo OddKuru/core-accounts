@@ -1,0 +1,3 @@
+package psql
+
+func Connect() {}

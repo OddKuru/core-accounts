@@ -7,4 +7,5 @@ require (
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	golang.org/x/crypto v0.47.0 // indirect
+	google.golang.org/protobuf v1.36.11 // indirect
 )
