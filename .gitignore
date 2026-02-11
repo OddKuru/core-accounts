@@ -1,3 +1,8 @@
 .idea
 .vscode
 .DS_Store
+
+prod.yaml
+dev.yaml
+local.yaml
+.env

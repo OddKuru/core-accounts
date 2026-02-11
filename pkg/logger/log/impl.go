@@ -5,7 +5,7 @@ import (
 	"io"
 	"time"
 
-	"github.com/OddKuru/accounts/pkg/logger"
+	"github.com/OddKuru/core-accounts/pkg/logger"
 	"github.com/rs/zerolog"
 )
 
@@ -23,14 +23,18 @@ type (
 
 	Log struct {
 		withFields []logger.Field
-		logger     zerolog.Logger
+		logger     *zerolog.Logger
 	}
 )
+
+func (l *Log) OriginalLogger() *zerolog.Logger {
+	return l.logger
+}
 
 func (l *Log) Enabled(ctx context.Context, level logger.Level) bool {
 	lg := zerolog.Ctx(ctx)
 	if lg == nil {
-		lg = &l.logger
+		lg = l.logger
 	}
 	switch level {
 	case logger.DebugLvl:
@@ -162,7 +166,7 @@ func (l *Log) combineFields(fields []logger.Field) []logger.Field {
 func (l *Log) Log(ctx context.Context, level logger.Level, message string, fields ...logger.Field) {
 	lg := zerolog.Ctx(ctx)
 	if lg == nil {
-		lg = &l.logger
+		lg = l.logger
 	}
 
 	log := lg.With().Timestamp().CallerWithSkipFrameCount(StructCallerSkipFrameCount).Logger()
@@ -218,7 +222,7 @@ func NewLogger(opt *Options) *Log {
 	zerolog.DefaultContextLogger = &newLogger
 	return &Log{
 		withFields: make([]logger.Field, 0),
-		logger:     newLogger,
+		logger:     &newLogger,
 	}
 }
 

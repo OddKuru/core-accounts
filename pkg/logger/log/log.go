@@ -3,7 +3,7 @@ package log
 import (
 	"context"
 
-	"github.com/OddKuru/accounts/pkg/logger"
+	"github.com/OddKuru/core-accounts/pkg/logger"
 	"github.com/rs/zerolog"
 )
 

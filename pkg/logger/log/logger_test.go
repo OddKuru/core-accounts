@@ -5,7 +5,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/OddKuru/accounts/pkg/logger"
+	"github.com/OddKuru/core-accounts/pkg/logger"
 	"github.com/stretchr/testify/assert"
 )
 

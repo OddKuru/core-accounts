@@ -1,10 +1,18 @@
 version: 3
 
 env:
+  PATH_MAIN: cmd/core-accounts/main.go
+  PATH_DEV_CFG: config/dev.yaml
+  PATH_LOCAL_CFG: config/local.yaml
+
   PROTO_SRC: proto
   PROTO_OUT: gogen
 
 tasks:
+  dev:
+    cmds:
+      - CONFIG_PATH=$PATH_DEV_CFG go run -race $PATH_MAIN run
+
   proto:
     desc: "Generate Go code from all proto files"
     cmds:
