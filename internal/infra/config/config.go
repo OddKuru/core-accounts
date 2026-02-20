@@ -10,8 +10,14 @@ import (
 
 type (
 	Config struct {
+		App    App    `yaml:"app"`
 		Logger Logger `yaml:"logger"`
 		Psql   Psql   `yaml:"postgresql"`
+	}
+
+	App struct {
+		GRPCAddress string `yaml:"grpc_address"`
+		GRPCTimeout int    `yaml:"grpc_timeout"`
 	}
 
 	Psql struct {
@@ -21,10 +27,10 @@ type (
 		Password        string        `yaml:"password"`
 		Database        string        `yaml:"database"`
 		SSLMode         string        `yaml:"sslmode"`
-		MaxConnections  int32         `yaml:"max_connections"`
-		MinConnections  int32         `yaml:"min_connections"`
-		MaxConnLifetime time.Duration `yaml:"max_connection_lifetime"`
-		MaxConnIdleTime time.Duration `yaml:"max_connection_idle_time"`
+		MaxConnections  int32         `yaml:"max_connections" env-default:"20"`
+		MinConnections  int32         `yaml:"min_connections" env-default:"2"`
+		MaxConnLifetime time.Duration `yaml:"max_connection_lifetime" env-default:"10m"`
+		MaxConnIdleTime time.Duration `yaml:"max_connection_idle_time" env-default:"10m"`
 	}
 
 	Logger struct {

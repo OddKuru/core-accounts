@@ -21,7 +21,7 @@ const (
 
 type (
 	Account interface {
-		Create(ctx context.Context, name, email, password string) error
+		Create(ctx context.Context, name, email, password string) (*aggregate.Account, error)
 
 		UpdateNameById(ctx context.Context, id, name string) error
 		UpdateEmailById(ctx context.Context, id, email string) error

@@ -4,6 +4,7 @@ env:
   PATH_MAIN: cmd/core-accounts/main.go
   PATH_DEV_CFG: config/dev.yaml
   PATH_LOCAL_CFG: config/local.yaml
+  PATH_MIGRATION_PSQL_DIR: migration/pgx_goose_migration
 
   PROTO_SRC: proto
   PROTO_OUT: gogen
@@ -29,3 +30,10 @@ tasks:
             --go-grpc_out={{.PROTO_OUT}} \
             --go-grpc_opt=paths=source_relative
         '
+  migration:
+    # goose -dir migration/postgres create name_file sql
+    cmds:
+      - export GOOSE_DRIVER=postgres
+      - export GOOSE_DBSTRING=postgresql://eer0:secret@localhost:10101/accounts?sslmode=disable
+      - export GOOSE_MIGRATION_DIR=migration/postgres
+      - goose up

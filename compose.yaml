@@ -1,0 +1,40 @@
+services:
+  postgres:
+    image: postgres:latest
+    container_name: core-psql
+    environment:
+      POSTGRES_USER: eer0
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: accounts
+    volumes:
+      - postgres_data:/var/lib/postgresql
+    ports:
+      - "10101:5432"
+    networks:
+      - app_network
+    restart: unless-stopped
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "10102:80"
+    networks:
+      - app_network
+    restart: unless-stopped
+    depends_on:
+      - postgres
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:80" ]
+      interval: 10s
+      timeout: 5s
+
+volumes:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge

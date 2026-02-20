@@ -82,7 +82,7 @@ func NewGrpcJobBuilder[T any]() *GrpcJobBuilder[T] {
 }
 
 func (g *GrpcJob[T]) Init(ctx context.Context, di T) error {
-	sliceInterceptors := make([]grpc.UnaryServerInterceptor, 0, len(g.interceptors))
+	sliceInterceptors := make([]grpc.UnaryServerInterceptor, len(g.interceptors))
 	copy(sliceInterceptors, g.interceptors)
 
 	if g.requestTimeout > 0 {

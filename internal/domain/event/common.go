@@ -18,3 +18,11 @@ type (
 
 	Events []Event
 )
+
+func (e Events) LogData() any {
+	sl := make([]string, 0, len(e))
+	for _, ev := range e {
+		sl = append(sl, ev.ID().Value())
+	}
+	return sl
+}

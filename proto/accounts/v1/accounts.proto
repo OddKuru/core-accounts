@@ -4,6 +4,7 @@ package accounts.v1;
 
 import "google/api/annotations.proto";
 import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
 import "query/v1/query.proto";
 
 option go_package = "github.com/OddKuru/core-accounts/gogen/accounts/v1";
@@ -17,8 +18,8 @@ message Account {
   string email = 2;
   string name = 3;
   string role = 4;
-  string updated_at = 5;
-  string created_at = 6;
+  google.protobuf.Timestamp updated_at = 5;
+  google.protobuf.Timestamp created_at = 6;
 }
 
 message CreateAccountRequest {
@@ -68,21 +69,21 @@ service AccountsService {
     };
   }
 
-  rpc UpdateEmailById(UpdateNameByIdRequest) returns (google.protobuf.Empty) {
+  rpc UpdateEmailById(UpdateEmailByIdRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "v1/accounts/email"
       body: "*"
     };
   }
 
-  rpc UpdateRoleById(UpdateNameByIdRequest) returns (google.protobuf.Empty) {
+  rpc UpdateRoleById(UpdateRoleByIdRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "v1/accounts/role"
       body: "*"
     };
   }
 
-  rpc UpdatePasswordById(UpdateNameByIdRequest) returns (google.protobuf.Empty) {
+  rpc UpdatePasswordById(UpdatePasswordByIdRequest) returns (google.protobuf.Empty) {
     option (google.api.http) = {
       put: "v1/accounts/password"
       body: "*"

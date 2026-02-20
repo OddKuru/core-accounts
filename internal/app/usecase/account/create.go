@@ -8,6 +8,7 @@ import (
 	"github.com/OddKuru/core-accounts/internal/domain/aggregate"
 	"github.com/OddKuru/core-accounts/internal/domain/entity"
 	"github.com/OddKuru/core-accounts/internal/domain/vo"
+	"github.com/OddKuru/core-accounts/pkg/logger"
 	"github.com/pkg/errors"
 )
 
@@ -16,66 +17,71 @@ var (
 	ErrAccountEmailAlreadyExists = errx.New(codex.AlreadyExists, "email already exists")
 )
 
-func (u *UseCase) Create(ctx context.Context, name, email, password string) error {
+func (u *UseCase) Create(ctx context.Context, name, email, password string) (*aggregate.Account, error) {
 	voName, err := vo.NewLoginName(name)
 	if err != nil {
-		return errors.Wrap(err, "[UseCase] vo.NewLoginName")
+		return nil, errors.Wrap(err, "[UseCase] vo.NewLoginName")
 	}
 	candidate, err := u.accountQuery.HasByName(ctx, voName)
 	if err != nil {
-		return errors.Wrap(err, "[UseCase] accountQuery.HasByName")
+		return nil, errors.Wrap(err, "[UseCase] accountQuery.HasByName")
 	}
 	if candidate {
-		return ErrAccountNameAlreadyExists
+		return nil, ErrAccountNameAlreadyExists
 	}
 	voEmail, err := vo.NewEmail(email)
 	if err != nil {
-		return errors.Wrap(err, "[UseCase] vo.NewEmail")
+		return nil, errors.Wrap(err, "[UseCase] vo.NewEmail")
 	}
 	hasEmail, err := u.accountQuery.HasByEmail(ctx, voEmail)
 	if err != nil {
-		return errors.Wrap(err, "[UseCase] accountQuery.HasByEmail")
+		return nil, errors.Wrap(err, "[UseCase] accountQuery.HasByEmail")
 	}
 	if hasEmail {
-		return ErrAccountEmailAlreadyExists
+		return nil, ErrAccountEmailAlreadyExists
 	}
 
 	voPassword, err := vo.NewPassword(password)
 	if err != nil {
-		return errors.Wrap(err, "[UseCase] vo.NewPassword")
+		return nil, errors.Wrap(err, "[UseCase] vo.NewPassword")
 	}
 
 	hashedPassword, err := u.passwordManager.Hash(voPassword)
 	if err != nil {
-		return errors.Wrap(err, "[UseCase] passwordManager.Hash")
+		return nil, errors.Wrap(err, "[UseCase] passwordManager.Hash")
 	}
 
 	id, err := u.idGenerator.GenerateID()
 	if err != nil {
-		return errors.Wrap(err, "[UseCase] idGenerator.GenerateID")
+		return nil, errors.Wrap(err, "[UseCase] idGenerator.GenerateID")
 	}
 
 	voRole, err := vo.NewRole(vo.RoleUser)
 	if err != nil {
-		return errors.Wrap(err, "[UseCase] vo.NewRole")
+		return nil, errors.Wrap(err, "[UseCase] vo.NewRole")
 	}
 
 	t := u.now.Now()
 
 	acc, err := entity.NewAccount(id, voName, voEmail, hashedPassword, voRole, CreateAccountVersion, t, t)
 	if err != nil {
-		return errors.Wrap(err, "[UseCase] entity.NewAccount")
+		return nil, errors.Wrap(err, "[UseCase] entity.NewAccount")
 	}
 
 	accAggregate, err := aggregate.NewAccount(acc)
 	if err != nil {
-		return errors.Wrap(err, "[UseCase] aggregate.NewAccount")
+		return nil, errors.Wrap(err, "[UseCase] aggregate.NewAccount")
 	}
 
 	err = u.accountCommand.Create(ctx, accAggregate)
 	if err != nil {
-		return errors.Wrap(err, "[UseCase] accountCommand.Create")
+		u.log.Error(
+			ctx,
+			"create account error",
+			logger.Any("aggregate", acc.LogData()),
+		)
+		return nil, errors.Wrap(err, "[UseCase] accountCommand.Create")
 	}
 
-	return nil
+	return accAggregate, nil
 }

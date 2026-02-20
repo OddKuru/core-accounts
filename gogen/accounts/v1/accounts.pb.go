@@ -9,6 +9,7 @@ package v1
 import (
 	v1 "github.com/OddKuru/core-accounts/gogen/query/v1"
 	empty "github.com/golang/protobuf/ptypes/empty"
+	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
@@ -74,8 +75,8 @@ type Account struct {
 	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
 	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Role          string                 `protobuf:"bytes,4,opt,name=role,proto3" json:"role,omitempty"`
-	UpdatedAt     string                 `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	CreatedAt     string                 `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamp.Timestamp   `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	CreatedAt     *timestamp.Timestamp   `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -138,18 +139,18 @@ func (x *Account) GetRole() string {
 	return ""
 }
 
-func (x *Account) GetUpdatedAt() string {
+func (x *Account) GetUpdatedAt() *timestamp.Timestamp {
 	if x != nil {
 		return x.UpdatedAt
 	}
-	return ""
+	return nil
 }
 
-func (x *Account) GetCreatedAt() string {
+func (x *Account) GetCreatedAt() *timestamp.Timestamp {
 	if x != nil {
 		return x.CreatedAt
 	}
-	return ""
+	return nil
 }
 
 type CreateAccountRequest struct {
@@ -484,18 +485,18 @@ var File_accounts_v1_accounts_proto protoreflect.FileDescriptor
 
 const file_accounts_v1_accounts_proto_rawDesc = "" +
 	"\n" +
-	"\x1aaccounts/v1/accounts.proto\x12\vaccounts.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x14query/v1/query.proto\"\x14\n" +
+	"\x1aaccounts/v1/accounts.proto\x12\vaccounts.v1\x1a\x1cgoogle/api/annotations.proto\x1a\x1bgoogle/protobuf/empty.proto\x1a\x1fgoogle/protobuf/timestamp.proto\x1a\x14query/v1/query.proto\"\x14\n" +
 	"\x02Id\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\tR\x02id\"\x95\x01\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"\xcd\x01\n" +
 	"\aAccount\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\tR\x02id\x12\x14\n" +
 	"\x05email\x18\x02 \x01(\tR\x05email\x12\x12\n" +
 	"\x04name\x18\x03 \x01(\tR\x04name\x12\x12\n" +
-	"\x04role\x18\x04 \x01(\tR\x04role\x12\x1d\n" +
+	"\x04role\x18\x04 \x01(\tR\x04role\x129\n" +
 	"\n" +
-	"updated_at\x18\x05 \x01(\tR\tupdatedAt\x12\x1d\n" +
+	"updated_at\x18\x05 \x01(\v2\x1a.google.protobuf.TimestampR\tupdatedAt\x129\n" +
 	"\n" +
-	"created_at\x18\x06 \x01(\tR\tcreatedAt\"\\\n" +
+	"created_at\x18\x06 \x01(\v2\x1a.google.protobuf.TimestampR\tcreatedAt\"\\\n" +
 	"\x14CreateAccountRequest\x12\x12\n" +
 	"\x04name\x18\x01 \x01(\tR\x04name\x12\x14\n" +
 	"\x05email\x18\x03 \x01(\tR\x05email\x12\x1a\n" +
@@ -520,13 +521,13 @@ const file_accounts_v1_accounts_proto_rawDesc = "" +
 	"\x15QueryAccountsResponse\x120\n" +
 	"\baccounts\x18\x01 \x03(\v2\x14.accounts.v1.AccountR\baccounts\x12\x1d\n" +
 	"\n" +
-	"page_count\x18\x02 \x01(\x04R\tpageCount2\xd6\x05\n" +
+	"page_count\x18\x02 \x01(\x04R\tpageCount2\xdb\x05\n" +
 	"\x0fAccountsService\x12Y\n" +
 	"\x06Create\x12!.accounts.v1.CreateAccountRequest\x1a\x14.accounts.v1.Account\"\x16\x82\xd3\xe4\x93\x02\x10:\x01*\"\vv1/accounts\x12i\n" +
-	"\x0eUpdateNameById\x12\".accounts.v1.UpdateNameByIdRequest\x1a\x16.google.protobuf.Empty\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\x1a\x10v1/accounts/name\x12k\n" +
-	"\x0fUpdateEmailById\x12\".accounts.v1.UpdateNameByIdRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\x1a\x11v1/accounts/email\x12i\n" +
-	"\x0eUpdateRoleById\x12\".accounts.v1.UpdateNameByIdRequest\x1a\x16.google.protobuf.Empty\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\x1a\x10v1/accounts/role\x12q\n" +
-	"\x12UpdatePasswordById\x12\".accounts.v1.UpdateNameByIdRequest\x1a\x16.google.protobuf.Empty\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\x1a\x14v1/accounts/password\x12Q\n" +
+	"\x0eUpdateNameById\x12\".accounts.v1.UpdateNameByIdRequest\x1a\x16.google.protobuf.Empty\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\x1a\x10v1/accounts/name\x12l\n" +
+	"\x0fUpdateEmailById\x12#.accounts.v1.UpdateEmailByIdRequest\x1a\x16.google.protobuf.Empty\"\x1c\x82\xd3\xe4\x93\x02\x16:\x01*\x1a\x11v1/accounts/email\x12i\n" +
+	"\x0eUpdateRoleById\x12\".accounts.v1.UpdateRoleByIdRequest\x1a\x16.google.protobuf.Empty\"\x1b\x82\xd3\xe4\x93\x02\x15:\x01*\x1a\x10v1/accounts/role\x12u\n" +
+	"\x12UpdatePasswordById\x12&.accounts.v1.UpdatePasswordByIdRequest\x1a\x16.google.protobuf.Empty\"\x1f\x82\xd3\xe4\x93\x02\x19:\x01*\x1a\x14v1/accounts/password\x12Q\n" +
 	"\x0eGetAccountById\x12\x0f.accounts.v1.Id\x1a\x14.accounts.v1.Account\"\x18\x82\xd3\xe4\x93\x02\x12\x12\x10v1/accounts/{id}\x12_\n" +
 	"\x12GetAccountsByQuery\x12\x10.query.QueryData\x1a\".accounts.v1.QueryAccountsResponse\"\x13\x82\xd3\xe4\x93\x02\r\x12\vv1/accountsB4Z2github.com/OddKuru/core-accounts/gogen/accounts/v1b\x06proto3"
 
@@ -552,30 +553,33 @@ var file_accounts_v1_accounts_proto_goTypes = []any{
 	(*UpdateRoleByIdRequest)(nil),     // 5: accounts.v1.UpdateRoleByIdRequest
 	(*UpdatePasswordByIdRequest)(nil), // 6: accounts.v1.UpdatePasswordByIdRequest
 	(*QueryAccountsResponse)(nil),     // 7: accounts.v1.QueryAccountsResponse
-	(*v1.QueryData)(nil),              // 8: query.QueryData
-	(*empty.Empty)(nil),               // 9: google.protobuf.Empty
+	(*timestamp.Timestamp)(nil),       // 8: google.protobuf.Timestamp
+	(*v1.QueryData)(nil),              // 9: query.QueryData
+	(*empty.Empty)(nil),               // 10: google.protobuf.Empty
 }
 var file_accounts_v1_accounts_proto_depIdxs = []int32{
-	1, // 0: accounts.v1.QueryAccountsResponse.accounts:type_name -> accounts.v1.Account
-	2, // 1: accounts.v1.AccountsService.Create:input_type -> accounts.v1.CreateAccountRequest
-	3, // 2: accounts.v1.AccountsService.UpdateNameById:input_type -> accounts.v1.UpdateNameByIdRequest
-	3, // 3: accounts.v1.AccountsService.UpdateEmailById:input_type -> accounts.v1.UpdateNameByIdRequest
-	3, // 4: accounts.v1.AccountsService.UpdateRoleById:input_type -> accounts.v1.UpdateNameByIdRequest
-	3, // 5: accounts.v1.AccountsService.UpdatePasswordById:input_type -> accounts.v1.UpdateNameByIdRequest
-	0, // 6: accounts.v1.AccountsService.GetAccountById:input_type -> accounts.v1.Id
-	8, // 7: accounts.v1.AccountsService.GetAccountsByQuery:input_type -> query.QueryData
-	1, // 8: accounts.v1.AccountsService.Create:output_type -> accounts.v1.Account
-	9, // 9: accounts.v1.AccountsService.UpdateNameById:output_type -> google.protobuf.Empty
-	9, // 10: accounts.v1.AccountsService.UpdateEmailById:output_type -> google.protobuf.Empty
-	9, // 11: accounts.v1.AccountsService.UpdateRoleById:output_type -> google.protobuf.Empty
-	9, // 12: accounts.v1.AccountsService.UpdatePasswordById:output_type -> google.protobuf.Empty
-	1, // 13: accounts.v1.AccountsService.GetAccountById:output_type -> accounts.v1.Account
-	7, // 14: accounts.v1.AccountsService.GetAccountsByQuery:output_type -> accounts.v1.QueryAccountsResponse
-	8, // [8:15] is the sub-list for method output_type
-	1, // [1:8] is the sub-list for method input_type
-	1, // [1:1] is the sub-list for extension type_name
-	1, // [1:1] is the sub-list for extension extendee
-	0, // [0:1] is the sub-list for field type_name
+	8,  // 0: accounts.v1.Account.updated_at:type_name -> google.protobuf.Timestamp
+	8,  // 1: accounts.v1.Account.created_at:type_name -> google.protobuf.Timestamp
+	1,  // 2: accounts.v1.QueryAccountsResponse.accounts:type_name -> accounts.v1.Account
+	2,  // 3: accounts.v1.AccountsService.Create:input_type -> accounts.v1.CreateAccountRequest
+	3,  // 4: accounts.v1.AccountsService.UpdateNameById:input_type -> accounts.v1.UpdateNameByIdRequest
+	4,  // 5: accounts.v1.AccountsService.UpdateEmailById:input_type -> accounts.v1.UpdateEmailByIdRequest
+	5,  // 6: accounts.v1.AccountsService.UpdateRoleById:input_type -> accounts.v1.UpdateRoleByIdRequest
+	6,  // 7: accounts.v1.AccountsService.UpdatePasswordById:input_type -> accounts.v1.UpdatePasswordByIdRequest
+	0,  // 8: accounts.v1.AccountsService.GetAccountById:input_type -> accounts.v1.Id
+	9,  // 9: accounts.v1.AccountsService.GetAccountsByQuery:input_type -> query.QueryData
+	1,  // 10: accounts.v1.AccountsService.Create:output_type -> accounts.v1.Account
+	10, // 11: accounts.v1.AccountsService.UpdateNameById:output_type -> google.protobuf.Empty
+	10, // 12: accounts.v1.AccountsService.UpdateEmailById:output_type -> google.protobuf.Empty
+	10, // 13: accounts.v1.AccountsService.UpdateRoleById:output_type -> google.protobuf.Empty
+	10, // 14: accounts.v1.AccountsService.UpdatePasswordById:output_type -> google.protobuf.Empty
+	1,  // 15: accounts.v1.AccountsService.GetAccountById:output_type -> accounts.v1.Account
+	7,  // 16: accounts.v1.AccountsService.GetAccountsByQuery:output_type -> accounts.v1.QueryAccountsResponse
+	10, // [10:17] is the sub-list for method output_type
+	3,  // [3:10] is the sub-list for method input_type
+	3,  // [3:3] is the sub-list for extension type_name
+	3,  // [3:3] is the sub-list for extension extendee
+	0,  // [0:3] is the sub-list for field type_name
 }
 
 func init() { file_accounts_v1_accounts_proto_init() }

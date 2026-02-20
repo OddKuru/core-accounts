@@ -26,6 +26,7 @@ type AccountViewer interface {
 	Email() vo.Email
 	Role() vo.Role
 	Password() vo.HashedPassword
+	Version() uint
 	UpdatedAt() time.Time
 	CreatedAt() time.Time
 }
@@ -134,4 +135,17 @@ func (a *Account) Validate() error {
 
 func (a *Account) View() AccountViewer {
 	return a
+}
+
+func (a *Account) LogData() any {
+	return map[string]any{
+		"id":       a.id.Value(),
+		"name":     a.name.Value(),
+		"email":    "<hidden>",
+		"role":     "<hidden>",
+		"password": "<hidden>",
+		"version":  a.Version(),
+		"created":  a.CreatedAt(),
+		"updated":  a.UpdatedAt(),
+	}
 }

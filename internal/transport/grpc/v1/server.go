@@ -38,8 +38,12 @@ func (s *Server) validate() error {
 }
 
 func (s *Server) Create(ctx context.Context, request *v1.CreateAccountRequest) (*v1.Account, error) {
-	//TODO implement me
-	panic("implement me")
+	acc, err := s.accountUseCase.Create(ctx, request.GetName(), request.GetEmail(), request.GetPassword())
+	if err != nil {
+		return nil, errors.Wrap(err, "[Server] accountUseCase.Create")
+	}
+
+	return convertAccAggregateToDTO(acc), nil
 }
 
 func (s *Server) UpdateNameById(ctx context.Context, request *v1.UpdateNameByIdRequest) (*empty.Empty, error) {
@@ -47,24 +51,27 @@ func (s *Server) UpdateNameById(ctx context.Context, request *v1.UpdateNameByIdR
 	panic("implement me")
 }
 
-func (s *Server) UpdateEmailById(ctx context.Context, request *v1.UpdateNameByIdRequest) (*empty.Empty, error) {
+func (s *Server) UpdateEmailById(ctx context.Context, request *v1.UpdateEmailByIdRequest) (*empty.Empty, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (s *Server) UpdateRoleById(ctx context.Context, request *v1.UpdateNameByIdRequest) (*empty.Empty, error) {
+func (s *Server) UpdateRoleById(ctx context.Context, request *v1.UpdateRoleByIdRequest) (*empty.Empty, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
-func (s *Server) UpdatePasswordById(ctx context.Context, request *v1.UpdateNameByIdRequest) (*empty.Empty, error) {
+func (s *Server) UpdatePasswordById(ctx context.Context, request *v1.UpdatePasswordByIdRequest) (*empty.Empty, error) {
 	//TODO implement me
 	panic("implement me")
 }
 
 func (s *Server) GetAccountById(ctx context.Context, id *v1.Id) (*v1.Account, error) {
-	//TODO implement me
-	panic("implement me")
+	acc, err := s.accountUseCase.GetById(ctx, id.GetId())
+	if err != nil {
+		return nil, errors.Wrap(err, "[Server] accountUseCase.GetById")
+	}
+	return convertAccAggregateToDTO(acc), nil
 }
 
 func (s *Server) GetAccountsByQuery(ctx context.Context, data *query.QueryData) (*v1.QueryAccountsResponse, error) {

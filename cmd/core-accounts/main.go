@@ -32,8 +32,8 @@ func main() {
 
 	accGRPCJob, err := jobs.NewGRPC[*container.Dependency](
 		jobs.GRPCVar{
-			Address:        "localhost:11000",
-			RequestTimeout: time.Second * 10,
+			Address:        cont.Config().App.GRPCAddress,
+			RequestTimeout: time.Second * time.Duration(cont.Config().App.GRPCTimeout),
 			Tracer:         opentracing.NoopTracer{},
 		},
 		grpcJob,
@@ -57,5 +57,6 @@ func grpcJob(_ context.Context, di *container.Dependency, srv *grpc.Server) erro
 		return err
 	}
 	v1.RegisterAccountsServiceServer(srv, server)
+
 	return nil
 }

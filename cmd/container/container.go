@@ -1,16 +1,19 @@
 package container
 
 import (
+	"context"
 	"os"
 
 	"github.com/OddKuru/core-accounts/internal/app/usecase/account"
 	"github.com/OddKuru/core-accounts/internal/infra/config"
 	"github.com/OddKuru/core-accounts/internal/infra/service/password"
+	"github.com/OddKuru/core-accounts/internal/infra/storage/psql"
 	ayaka "github.com/OddKuru/core-accounts/pkg/core"
 	"github.com/OddKuru/core-accounts/pkg/ecosystem"
 	"github.com/OddKuru/core-accounts/pkg/logger"
 	"github.com/OddKuru/core-accounts/pkg/logger/log"
 	"github.com/OddKuru/core-accounts/pkg/utils"
+	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/pkg/errors"
 )
 
@@ -22,14 +25,17 @@ type Dependency struct {
 	accountsUseCase account.Account
 	appLogger       ayaka.Logger
 	logger          logger.Logger
+	postgresPool    *pgxpool.Pool
 	config          *config.Config
 }
 
 func AppContainer() (*Dependency, error) {
 	deps := &Dependency{}
-	err := deps.combineInit(
+	err := deps.combine(
 		deps.initConfig,
 		deps.initLogger,
+		deps.connectDatabase,
+		deps.initUseCases,
 	)
 
 	if err != nil {
@@ -55,7 +61,7 @@ func (d *Dependency) Logger() logger.Logger {
 	return d.logger
 }
 
-func (d *Dependency) combineInit(fns ...func() error) error {
+func (d *Dependency) combine(fns ...func() error) error {
 	for _, fn := range fns {
 		if err := fn(); err != nil {
 			return err
@@ -108,6 +114,15 @@ func (d *Dependency) initLogger() error {
 	return nil
 }
 
+func (d *Dependency) connectDatabase() error {
+	conn, err := psql.Connect(context.Background(), d.config.Psql)
+	if err != nil {
+		return errors.Wrap(err, "[Dependency] psql.Connect")
+	}
+	d.postgresPool = conn
+	return nil
+}
+
 func (d *Dependency) initUseCases() error {
 
 	timeNow := utils.TimeNow{}
@@ -117,10 +132,20 @@ func (d *Dependency) initUseCases() error {
 		return errors.Wrap(err, "[Dependency] password.New")
 	}
 
+	accQuery, err := psql.NewAccountQuery(d.postgresPool)
+	if err != nil {
+		return errors.Wrap(err, "[Dependency] psql.NewAccountQuery")
+	}
+
+	accCommand, err := psql.NewAccountCommand(d.postgresPool)
+	if err != nil {
+		return errors.Wrap(err, "[Dependency] psql.NewAccountCommand")
+	}
+
 	accUseCase, err := account.NewUseCase(
 		d.logger,
-		nil,
-		nil,
+		accQuery,
+		accCommand,
 		passwordManager,
 		IDGen,
 		timeNow,

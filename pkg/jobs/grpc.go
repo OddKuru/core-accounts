@@ -2,6 +2,7 @@ package jobs
 
 import (
 	"context"
+	"sync"
 	"time"
 
 	ayaka "github.com/OddKuru/core-accounts/pkg/core"
@@ -18,7 +19,11 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+var mu = sync.Mutex{}
+
 func registerPrometheus(srv *grpc.Server) {
+	mu.Lock()
+	defer mu.Unlock()
 	grpcPrometheus.EnableHandlingTimeHistogram(
 		grpcPrometheus.WithHistogramBuckets(
 			prometheus.DefBuckets,
@@ -53,6 +58,9 @@ type GRPCVar struct {
 func NewGRPC[T any](v GRPCVar, regs ...ecosystem.GrpcRegister[T]) (ayaka.Job[T], error) {
 	job, err := ecosystem.NewGrpcJobBuilder[T]().
 		Address(v.Address).
+		Interceptors(
+			ErrorInterceptor,
+		).
 		RequestTimeout(v.RequestTimeout).
 		Register(regs...).
 		RegisterServer(func(srv *grpc.Server) error {

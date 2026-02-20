@@ -103,3 +103,10 @@ func (a *Account) ChangePassword(password vo.HashedPassword, t time.Time) error 
 
 	return nil
 }
+
+func (a *Account) LogData() any {
+	return map[string]any{
+		"account": a.account.LogData(),
+		"events":  a.events.LogData(),
+	}
+}
