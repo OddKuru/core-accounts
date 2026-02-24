@@ -21,34 +21,6 @@ env:
   PROTO_OUT: gogen
 
 tasks:
-  install-formatters:
-    desc: "install formatters to bin"
-    cmds:
-      - |
-        [ -f {{.PATH_GOFUMPT}} ] || {
-          echo 'install gofumpt {{.GOFUMPT_VERSION}}...'
-          GOBIN={{.PATH_BIN_DIR}} go install mvdan.cc/gofumpt@{{.GOFUMPT_VERSION}}
-        }
-        [ -f {{.PATH_GCI}} ] || {
-          echo 'install gci {{.GCI_VERSION}}...'
-          GOBIN={{.PATH_BIN_DIR}} go install github.com/daixiang0/gci@{{.GCI_VERSION}}
-        }
-    status:
-      - test -x {{.PATH_GOFUMPT}}
-      - test -x {{.PATH_GCI}}
-
-  format:
-    desc: "format all project"
-    deps: [ install-formatters ]
-    cmds:
-      - |
-        echo 'gofumpt: formatting...'
-        find . -type f -name '*.go' ! -path '*/mocks/*' -exec {{.PATH_GOFUMPT}} -extra -w {} +
-      - |
-        GO_MODULE=$(go list -m)
-        echo 'gci: sort imports...'
-        find . -type f -name '*.go' ! -path '*/mocks/*' -exec {{.PATH_GCI}} write -s standard -s default -s 'prefix($GO_MODULE)' {} +
-
   install-linters:
     desc: "install linters to bin"
     cmds:
