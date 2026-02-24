@@ -1,7 +1,7 @@
 .idea
 .vscode
 .DS_Store
-.bin
+bin
 
 prod.yaml
 dev.yaml
