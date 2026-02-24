@@ -6,7 +6,6 @@ require (
 	github.com/OddEer0/errx v0.0.0-20260118170458-dfe9ae182598
 	github.com/go-chi/chi/v5 v5.2.5
 	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible
-	github.com/golang/protobuf v1.5.4
 	github.com/google/uuid v1.6.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/ilyakaznacheev/cleanenv v1.5.0
