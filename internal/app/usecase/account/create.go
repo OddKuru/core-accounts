@@ -5,6 +5,7 @@ import (
 
 	"github.com/OddEer0/errx"
 	"github.com/OddEer0/errx/codex"
+	"github.com/OddKuru/core-accounts/internal/app/ports"
 	"github.com/OddKuru/core-accounts/internal/domain/aggregate"
 	"github.com/OddKuru/core-accounts/internal/domain/entity"
 	"github.com/OddKuru/core-accounts/internal/domain/vo"
@@ -73,14 +74,20 @@ func (u *UseCase) Create(ctx context.Context, name, email, password string) (*ag
 		return nil, errors.Wrap(err, "[UseCase] aggregate.NewAccount")
 	}
 
-	err = u.accountCommand.Create(ctx, accAggregate)
+	err = u.uow.Do(ctx, func(repos ports.Repositories) error {
+		err := repos.AccountRepository().Save(ctx, accAggregate)
+		if err != nil {
+			u.log.Error(
+				ctx,
+				"create account error",
+				logger.Any("aggregate", acc.LogData()),
+			)
+			return errors.Wrap(err, "[UseCase] accountCommand.Create")
+		}
+		return nil
+	})
 	if err != nil {
-		u.log.Error(
-			ctx,
-			"create account error",
-			logger.Any("aggregate", acc.LogData()),
-		)
-		return nil, errors.Wrap(err, "[UseCase] accountCommand.Create")
+		return nil, errors.Wrap(err, "[UseCase] uow.Do")
 	}
 
 	return accAggregate, nil

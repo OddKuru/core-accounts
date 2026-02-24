@@ -3,12 +3,35 @@ package psql
 import (
 	"context"
 	"fmt"
-	"time"
 
+	"github.com/OddKuru/core-accounts/internal/domain/vo"
 	"github.com/OddKuru/core-accounts/internal/infra/config"
+	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/pkg/errors"
 )
+
+var (
+	RoleValueFromDB = map[string]vo.AccountRoleType{
+		"super_admin": vo.RoleSuperAdmin,
+		"admin":       vo.RoleAdmin,
+		"user":        vo.RoleUser,
+	}
+
+	RoleValueToDB = map[vo.AccountRoleType]string{
+		vo.RoleUnknown:    "user",
+		vo.RoleSuperAdmin: "super_admin",
+		vo.RoleAdmin:      "admin",
+		vo.RoleUser:       "user",
+	}
+)
+
+type SQLQuerier interface {
+	Exec(ctx context.Context, sql string, arguments ...any) (pgconn.CommandTag, error)
+	QueryRow(ctx context.Context, sql string, args ...any) pgx.Row
+	Query(ctx context.Context, sql string, args ...any) (pgx.Rows, error)
+}
 
 func Connect(ctx context.Context, cfg config.Psql) (*pgxpool.Pool, error) {
 	connString := fmt.Sprintf(
@@ -34,7 +57,7 @@ func Connect(ctx context.Context, cfg config.Psql) (*pgxpool.Pool, error) {
 		conf.MaxConnIdleTime = cfg.MaxConnIdleTime
 	}
 
-	conf.HealthCheckPeriod = 30 * time.Second
+	conf.HealthCheckPeriod = cfg.HealthCheckInterval
 
 	pool, err := pgxpool.NewWithConfig(ctx, conf)
 	if err != nil {

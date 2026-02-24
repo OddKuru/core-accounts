@@ -16,12 +16,10 @@ type GrpcJobEnvKeys struct {
 	RequestTimeout string
 }
 
-var (
-	DefaultUnaryJobEnvKeys = &GrpcJobEnvKeys{
-		Address:        "GRPC_ADDRESS",
-		RequestTimeout: "GRPC_REQUEST_TIMEOUT",
-	}
-)
+var DefaultUnaryJobEnvKeys = &GrpcJobEnvKeys{
+	Address:        "GRPC_ADDRESS",
+	RequestTimeout: "GRPC_REQUEST_TIMEOUT",
+}
 
 func NewGRPCWithEnv[T any](
 	tracer opentracing.Tracer,
@@ -50,7 +48,6 @@ func NewGRPCWithEnv[T any](
 		RequestTimeout: time.Duration(requestTimeout) * time.Second,
 		Tracer:         tracer,
 	}, regs...)
-
 	if err != nil {
 		return nil, err
 	}

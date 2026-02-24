@@ -13,9 +13,7 @@ const (
 	AccountChangePasswordType Type = "account_change_password"
 )
 
-var (
-	_ Event = (*AccountChangeName)(nil)
-)
+var _ Event = (*AccountChangeName)(nil)
 
 type AccountChangeName struct {
 	id        vo.ID

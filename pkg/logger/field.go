@@ -2,7 +2,7 @@ package logger
 
 import "time"
 
-func String(key string, value string) Field {
+func String(key, value string) Field {
 	return Field{Key: key, Type: StringType, Value: value}
 }
 

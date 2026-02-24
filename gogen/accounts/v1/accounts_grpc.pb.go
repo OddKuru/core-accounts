@@ -9,10 +9,10 @@ package v1
 import (
 	context "context"
 	v1 "github.com/OddKuru/core-accounts/gogen/query/v1"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
 )
 
 // This is a compile-time assertion to ensure that this generated file
@@ -35,10 +35,10 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AccountsServiceClient interface {
 	Create(ctx context.Context, in *CreateAccountRequest, opts ...grpc.CallOption) (*Account, error)
-	UpdateNameById(ctx context.Context, in *UpdateNameByIdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	UpdateEmailById(ctx context.Context, in *UpdateEmailByIdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	UpdateRoleById(ctx context.Context, in *UpdateRoleByIdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	UpdatePasswordById(ctx context.Context, in *UpdatePasswordByIdRequest, opts ...grpc.CallOption) (*empty.Empty, error)
+	UpdateNameById(ctx context.Context, in *UpdateNameByIdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UpdateEmailById(ctx context.Context, in *UpdateEmailByIdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UpdateRoleById(ctx context.Context, in *UpdateRoleByIdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
+	UpdatePasswordById(ctx context.Context, in *UpdatePasswordByIdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error)
 	GetAccountById(ctx context.Context, in *Id, opts ...grpc.CallOption) (*Account, error)
 	GetAccountsByQuery(ctx context.Context, in *v1.QueryData, opts ...grpc.CallOption) (*QueryAccountsResponse, error)
 }
@@ -61,9 +61,9 @@ func (c *accountsServiceClient) Create(ctx context.Context, in *CreateAccountReq
 	return out, nil
 }
 
-func (c *accountsServiceClient) UpdateNameById(ctx context.Context, in *UpdateNameByIdRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *accountsServiceClient) UpdateNameById(ctx context.Context, in *UpdateNameByIdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(empty.Empty)
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, AccountsService_UpdateNameById_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -71,9 +71,9 @@ func (c *accountsServiceClient) UpdateNameById(ctx context.Context, in *UpdateNa
 	return out, nil
 }
 
-func (c *accountsServiceClient) UpdateEmailById(ctx context.Context, in *UpdateEmailByIdRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *accountsServiceClient) UpdateEmailById(ctx context.Context, in *UpdateEmailByIdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(empty.Empty)
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, AccountsService_UpdateEmailById_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -81,9 +81,9 @@ func (c *accountsServiceClient) UpdateEmailById(ctx context.Context, in *UpdateE
 	return out, nil
 }
 
-func (c *accountsServiceClient) UpdateRoleById(ctx context.Context, in *UpdateRoleByIdRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *accountsServiceClient) UpdateRoleById(ctx context.Context, in *UpdateRoleByIdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(empty.Empty)
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, AccountsService_UpdateRoleById_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -91,9 +91,9 @@ func (c *accountsServiceClient) UpdateRoleById(ctx context.Context, in *UpdateRo
 	return out, nil
 }
 
-func (c *accountsServiceClient) UpdatePasswordById(ctx context.Context, in *UpdatePasswordByIdRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *accountsServiceClient) UpdatePasswordById(ctx context.Context, in *UpdatePasswordByIdRequest, opts ...grpc.CallOption) (*emptypb.Empty, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(empty.Empty)
+	out := new(emptypb.Empty)
 	err := c.cc.Invoke(ctx, AccountsService_UpdatePasswordById_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -126,10 +126,10 @@ func (c *accountsServiceClient) GetAccountsByQuery(ctx context.Context, in *v1.Q
 // for forward compatibility.
 type AccountsServiceServer interface {
 	Create(context.Context, *CreateAccountRequest) (*Account, error)
-	UpdateNameById(context.Context, *UpdateNameByIdRequest) (*empty.Empty, error)
-	UpdateEmailById(context.Context, *UpdateEmailByIdRequest) (*empty.Empty, error)
-	UpdateRoleById(context.Context, *UpdateRoleByIdRequest) (*empty.Empty, error)
-	UpdatePasswordById(context.Context, *UpdatePasswordByIdRequest) (*empty.Empty, error)
+	UpdateNameById(context.Context, *UpdateNameByIdRequest) (*emptypb.Empty, error)
+	UpdateEmailById(context.Context, *UpdateEmailByIdRequest) (*emptypb.Empty, error)
+	UpdateRoleById(context.Context, *UpdateRoleByIdRequest) (*emptypb.Empty, error)
+	UpdatePasswordById(context.Context, *UpdatePasswordByIdRequest) (*emptypb.Empty, error)
 	GetAccountById(context.Context, *Id) (*Account, error)
 	GetAccountsByQuery(context.Context, *v1.QueryData) (*QueryAccountsResponse, error)
 }
@@ -144,16 +144,16 @@ type UnimplementedAccountsServiceServer struct{}
 func (UnimplementedAccountsServiceServer) Create(context.Context, *CreateAccountRequest) (*Account, error) {
 	return nil, status.Error(codes.Unimplemented, "method Create not implemented")
 }
-func (UnimplementedAccountsServiceServer) UpdateNameById(context.Context, *UpdateNameByIdRequest) (*empty.Empty, error) {
+func (UnimplementedAccountsServiceServer) UpdateNameById(context.Context, *UpdateNameByIdRequest) (*emptypb.Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateNameById not implemented")
 }
-func (UnimplementedAccountsServiceServer) UpdateEmailById(context.Context, *UpdateEmailByIdRequest) (*empty.Empty, error) {
+func (UnimplementedAccountsServiceServer) UpdateEmailById(context.Context, *UpdateEmailByIdRequest) (*emptypb.Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateEmailById not implemented")
 }
-func (UnimplementedAccountsServiceServer) UpdateRoleById(context.Context, *UpdateRoleByIdRequest) (*empty.Empty, error) {
+func (UnimplementedAccountsServiceServer) UpdateRoleById(context.Context, *UpdateRoleByIdRequest) (*emptypb.Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdateRoleById not implemented")
 }
-func (UnimplementedAccountsServiceServer) UpdatePasswordById(context.Context, *UpdatePasswordByIdRequest) (*empty.Empty, error) {
+func (UnimplementedAccountsServiceServer) UpdatePasswordById(context.Context, *UpdatePasswordByIdRequest) (*emptypb.Empty, error) {
 	return nil, status.Error(codes.Unimplemented, "method UpdatePasswordById not implemented")
 }
 func (UnimplementedAccountsServiceServer) GetAccountById(context.Context, *Id) (*Account, error) {

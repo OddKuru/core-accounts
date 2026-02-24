@@ -8,11 +8,11 @@ package v1
 
 import (
 	v1 "github.com/OddKuru/core-accounts/gogen/query/v1"
-	empty "github.com/golang/protobuf/ptypes/empty"
-	timestamp "github.com/golang/protobuf/ptypes/timestamp"
 	_ "google.golang.org/genproto/googleapis/api/annotations"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	emptypb "google.golang.org/protobuf/types/known/emptypb"
+	timestamppb "google.golang.org/protobuf/types/known/timestamppb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -75,8 +75,8 @@ type Account struct {
 	Email         string                 `protobuf:"bytes,2,opt,name=email,proto3" json:"email,omitempty"`
 	Name          string                 `protobuf:"bytes,3,opt,name=name,proto3" json:"name,omitempty"`
 	Role          string                 `protobuf:"bytes,4,opt,name=role,proto3" json:"role,omitempty"`
-	UpdatedAt     *timestamp.Timestamp   `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
-	CreatedAt     *timestamp.Timestamp   `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
+	UpdatedAt     *timestamppb.Timestamp `protobuf:"bytes,5,opt,name=updated_at,json=updatedAt,proto3" json:"updated_at,omitempty"`
+	CreatedAt     *timestamppb.Timestamp `protobuf:"bytes,6,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -139,14 +139,14 @@ func (x *Account) GetRole() string {
 	return ""
 }
 
-func (x *Account) GetUpdatedAt() *timestamp.Timestamp {
+func (x *Account) GetUpdatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.UpdatedAt
 	}
 	return nil
 }
 
-func (x *Account) GetCreatedAt() *timestamp.Timestamp {
+func (x *Account) GetCreatedAt() *timestamppb.Timestamp {
 	if x != nil {
 		return x.CreatedAt
 	}
@@ -553,9 +553,9 @@ var file_accounts_v1_accounts_proto_goTypes = []any{
 	(*UpdateRoleByIdRequest)(nil),     // 5: accounts.v1.UpdateRoleByIdRequest
 	(*UpdatePasswordByIdRequest)(nil), // 6: accounts.v1.UpdatePasswordByIdRequest
 	(*QueryAccountsResponse)(nil),     // 7: accounts.v1.QueryAccountsResponse
-	(*timestamp.Timestamp)(nil),       // 8: google.protobuf.Timestamp
+	(*timestamppb.Timestamp)(nil),     // 8: google.protobuf.Timestamp
 	(*v1.QueryData)(nil),              // 9: query.QueryData
-	(*empty.Empty)(nil),               // 10: google.protobuf.Empty
+	(*emptypb.Empty)(nil),             // 10: google.protobuf.Empty
 }
 var file_accounts_v1_accounts_proto_depIdxs = []int32{
 	8,  // 0: accounts.v1.Account.updated_at:type_name -> google.protobuf.Timestamp

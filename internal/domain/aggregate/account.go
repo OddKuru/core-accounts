@@ -104,6 +104,14 @@ func (a *Account) ChangePassword(password vo.HashedPassword, t time.Time) error 
 	return nil
 }
 
+func (a *Account) SetVersion(version uint) {
+	a.account.SetVersion(version)
+}
+
+func (a *Account) IncrementVersion() {
+	a.account.IncrementVersion()
+}
+
 func (a *Account) LogData() any {
 	return map[string]any{
 		"account": a.account.LogData(),

@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"time"
 
 	"github.com/OddKuru/core-accounts/cmd/container"
 	v1 "github.com/OddKuru/core-accounts/gogen/accounts/v1"
@@ -26,18 +25,22 @@ func main() {
 		Logger:      cont.AppLogger(),
 		Container:   cont,
 	}).WithConfig(&ayaka.Config{
-		StartTimeout:    time.Minute,
-		GracefulTimeout: time.Second * 10,
+		StartTimeout:    cont.Config().App.StartTimeout,
+		GracefulTimeout: cont.Config().App.GracefulTimeout,
 	})
 
 	accGRPCJob, err := jobs.NewGRPC[*container.Dependency](
 		jobs.GRPCVar{
 			Address:        cont.Config().App.GRPCAddress,
-			RequestTimeout: time.Second * time.Duration(cont.Config().App.GRPCTimeout),
+			RequestTimeout: cont.Config().App.GRPCTimeout,
 			Tracer:         opentracing.NoopTracer{},
 		},
 		grpcJob,
 	)
+
+	if err != nil {
+		panic(err)
+	}
 
 	app.WithJob(
 		ayaka.JobEntry[*container.Dependency]{
@@ -51,6 +54,7 @@ func main() {
 		panic(err)
 	}
 }
+
 func grpcJob(_ context.Context, di *container.Dependency, srv *grpc.Server) error {
 	server, err := grpcServer.NewGRPCServer(di.AccountsUseCase())
 	if err != nil {

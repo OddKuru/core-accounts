@@ -37,7 +37,6 @@ func AppContainer() (*Dependency, error) {
 		deps.connectDatabase,
 		deps.initUseCases,
 	)
-
 	if err != nil {
 		return nil, err
 	}
@@ -124,7 +123,6 @@ func (d *Dependency) connectDatabase() error {
 }
 
 func (d *Dependency) initUseCases() error {
-
 	timeNow := utils.TimeNow{}
 	IDGen := UUIDV4{}
 	passwordManager, err := password.New()
@@ -137,15 +135,15 @@ func (d *Dependency) initUseCases() error {
 		return errors.Wrap(err, "[Dependency] psql.NewAccountQuery")
 	}
 
-	accCommand, err := psql.NewAccountCommand(d.postgresPool)
+	uow, err := psql.NewUnitOfWork(d.postgresPool)
 	if err != nil {
-		return errors.Wrap(err, "[Dependency] psql.NewAccountCommand")
+		return errors.Wrap(err, "[Dependency] psql.NewUnitOfWork")
 	}
 
 	accUseCase, err := account.NewUseCase(
 		d.logger,
 		accQuery,
-		accCommand,
+		uow,
 		passwordManager,
 		IDGen,
 		timeNow,

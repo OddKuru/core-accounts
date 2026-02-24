@@ -6,12 +6,11 @@ import (
 	"time"
 
 	ayaka "github.com/OddKuru/core-accounts/pkg/core"
+	"github.com/OddKuru/core-accounts/pkg/ecosystem"
 	grpcPrometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 	"github.com/prometheus/client_golang/prometheus"
-
-	"github.com/OddKuru/core-accounts/pkg/ecosystem"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	health "google.golang.org/grpc/health/grpc_health_v1"
@@ -37,7 +36,10 @@ func registerPrometheus(srv *grpc.Server) {
 
 type healthService struct{}
 
-func (s *healthService) List(ctx context.Context, request *health.HealthListRequest) (*health.HealthListResponse, error) {
+func (s *healthService) List(
+	_ context.Context,
+	_ *health.HealthListRequest,
+) (*health.HealthListResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "unimplemented")
 }
 
@@ -73,7 +75,6 @@ func NewGRPC[T any](v GRPCVar, regs ...ecosystem.GrpcRegister[T]) (ayaka.Job[T],
 			return nil
 		}).
 		Build()
-
 	if err != nil {
 		return nil, errors.Wrap(err, "ecosystem.NewGrpcJobBuilder.Build")
 	}

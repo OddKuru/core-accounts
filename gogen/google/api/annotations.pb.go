@@ -21,9 +21,9 @@
 package annotations
 
 import (
-	descriptor "github.com/golang/protobuf/protoc-gen-go/descriptor"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
+	descriptorpb "google.golang.org/protobuf/types/descriptorpb"
 	reflect "reflect"
 	unsafe "unsafe"
 )
@@ -37,7 +37,7 @@ const (
 
 var file_google_api_annotations_proto_extTypes = []protoimpl.ExtensionInfo{
 	{
-		ExtendedType:  (*descriptor.MethodOptions)(nil),
+		ExtendedType:  (*descriptorpb.MethodOptions)(nil),
 		ExtensionType: (*HttpRule)(nil),
 		Field:         72295728,
 		Name:          "google.api.http",
@@ -46,7 +46,7 @@ var file_google_api_annotations_proto_extTypes = []protoimpl.ExtensionInfo{
 	},
 }
 
-// Extension fields to descriptor.MethodOptions.
+// Extension fields to descriptorpb.MethodOptions.
 var (
 	// See `HttpRule`.
 	//
@@ -64,8 +64,8 @@ const file_google_api_annotations_proto_rawDesc = "" +
 	"\x0ecom.google.apiB\x10AnnotationsProtoP\x01ZAgoogle.golang.org/genproto/googleapis/api/annotations;annotations\xa2\x02\x04GAPIb\x06proto3"
 
 var file_google_api_annotations_proto_goTypes = []any{
-	(*descriptor.MethodOptions)(nil), // 0: google.protobuf.MethodOptions
-	(*HttpRule)(nil),                 // 1: google.api.HttpRule
+	(*descriptorpb.MethodOptions)(nil), // 0: google.protobuf.MethodOptions
+	(*HttpRule)(nil),                   // 1: google.api.HttpRule
 }
 var file_google_api_annotations_proto_depIdxs = []int32{
 	0, // 0: google.api.http:extendee -> google.protobuf.MethodOptions

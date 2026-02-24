@@ -15,7 +15,6 @@ func (s *Service) Hash(password vo.Password) (vo.HashedPassword, error) {
 	}
 	result := vo.NewHashedPassword(hashedPassword)
 	return result, nil
-
 }
 
 func (s *Service) Compare(hash vo.HashedPassword, password vo.Password) error {

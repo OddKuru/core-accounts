@@ -5,6 +5,7 @@ import (
 
 	"github.com/OddEer0/errx"
 	"github.com/OddEer0/errx/codex"
+	"github.com/OddKuru/core-accounts/internal/app/ports"
 	"github.com/OddKuru/core-accounts/internal/domain/aggregate"
 	"github.com/OddKuru/core-accounts/internal/domain/rco"
 	"github.com/OddKuru/core-accounts/internal/domain/repository"
@@ -35,9 +36,9 @@ type (
 	UseCase struct {
 		log             logger.Logger
 		accountQuery    repository.AccountQuery
-		accountCommand  repository.AccountCommand
-		passwordManager repository.PasswordHasher
-		idGenerator     repository.IDGenerator
+		uow             ports.UnitOfWork
+		passwordManager ports.PasswordHasher
+		idGenerator     ports.IDGenerator
 		now             utils.TimeNower
 	}
 )
@@ -45,15 +46,15 @@ type (
 func NewUseCase(
 	log logger.Logger,
 	accountQuery repository.AccountQuery,
-	accountCommand repository.AccountCommand,
-	passwordManager repository.PasswordHasher,
-	idGenerator repository.IDGenerator,
+	uow ports.UnitOfWork,
+	passwordManager ports.PasswordHasher,
+	idGenerator ports.IDGenerator,
 	nowTimer utils.TimeNower,
 ) (*UseCase, error) {
 	uc := &UseCase{
 		log:             log,
 		accountQuery:    accountQuery,
-		accountCommand:  accountCommand,
+		uow:             uow,
 		passwordManager: passwordManager,
 		idGenerator:     idGenerator,
 		now:             nowTimer,
@@ -73,8 +74,8 @@ func (u *UseCase) validate() error {
 	if u.accountQuery == nil {
 		return errx.New(codex.InvalidArgument, "accountQuery is nil")
 	}
-	if u.accountCommand == nil {
-		return errx.New(codex.InvalidArgument, "accountCommand is nil")
+	if u.uow == nil {
+		return errx.New(codex.InvalidArgument, "uow is nil")
 	}
 	if u.passwordManager == nil {
 		return errx.New(codex.InvalidArgument, "passwordManager is nil")

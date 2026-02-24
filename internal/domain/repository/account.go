@@ -9,9 +9,8 @@ import (
 )
 
 type AccountCommand interface {
-	Create(ctx context.Context, account *aggregate.Account) error
-
-	UpdateByEvents(ctx context.Context, account *aggregate.Account) error
+	Load(ctx context.Context, id vo.ID) (*aggregate.Account, error)
+	Save(ctx context.Context, account *aggregate.Account) error
 }
 
 type AccountQuery interface {

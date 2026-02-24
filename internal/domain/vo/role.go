@@ -15,14 +15,12 @@ const (
 	RoleUser
 )
 
-var (
-	RoleString = map[AccountRoleType]string{
-		RoleUnknown:    "unknown",
-		RoleSuperAdmin: "super admin",
-		RoleAdmin:      "admin",
-		RoleUser:       "user",
-	}
-)
+var RoleString = map[AccountRoleType]string{
+	RoleUnknown:    "unknown",
+	RoleSuperAdmin: "super admin",
+	RoleAdmin:      "admin",
+	RoleUser:       "user",
+}
 
 type Role struct {
 	role AccountRoleType

@@ -1,8 +1,6 @@
 package logger
 
-var (
-	sliceCap = 4
-)
+var sliceCap = 4
 
 type OutDump struct {
 	Dump []byte

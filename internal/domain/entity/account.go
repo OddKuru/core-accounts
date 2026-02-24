@@ -123,6 +123,14 @@ func (a *Account) ChangeRole(role vo.Role) error {
 	return nil
 }
 
+func (a *Account) SetVersion(version uint) {
+	a.version = version
+}
+
+func (a *Account) IncrementVersion() {
+	a.version++
+}
+
 func (a *Account) Validate() error {
 	return validation.ValidateStruct(a,
 		validation.Field(&a.id, validation.Required),
