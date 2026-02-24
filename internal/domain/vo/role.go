@@ -30,7 +30,7 @@ func NewRole(role AccountRoleType) (Role, error) {
 	result := Role{role}
 
 	if err := result.Validate(); err != nil {
-		return result, errx.WrapWithCode(err, codex.Internal, "Role.Validate")
+		return Role{}, errx.WrapWithCode(err, codex.Internal, "Role.Validate")
 	}
 
 	return result, nil
@@ -41,8 +41,10 @@ func (r Role) Value() AccountRoleType {
 }
 
 func (r Role) Validate() error {
-	return validation.ValidateStruct(&r,
-		validation.Field(&r.role, validation.In(RoleSuperAdmin, RoleAdmin, RoleUser)),
+	return validation.Validate(
+		r.role,
+		validation.Required,
+		validation.In(RoleSuperAdmin, RoleAdmin, RoleUser).Error("role invalid value"),
 	)
 }
 

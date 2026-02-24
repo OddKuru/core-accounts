@@ -38,6 +38,18 @@ tasks:
     cmds:
       - '{{.PATH_GOLANGCI_LINT}} run ./... --config={{.PATH_GOLANGCI_LINT_CONFIG}}'
 
+  test:
+    desc: "testing project"
+    cmds:
+      - go clean -testcache
+      - go test -cover -race ./...
+
+  cover:
+    cmds:
+      - go test -race -v -coverpkg=./... -coverprofile=c.out ./...
+      - go tool cover -html="c.out"
+      - rm c.out
+
   dev:
     desc: "start app on developer mode"
     cmds:
