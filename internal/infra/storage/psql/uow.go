@@ -49,7 +49,9 @@ func NewUnitOfWork(pool *pgxpool.Pool) (*UnitOfWork, error) {
 }
 
 func (u UnitOfWork) Do(ctx context.Context, fn func(repositories ports.Repositories) error) error {
-	tx, err := u.pool.Begin(ctx)
+	tx, err := u.pool.BeginTx(ctx, pgx.TxOptions{
+		IsoLevel: pgx.RepeatableRead,
+	})
 	if err != nil {
 		return errx.WrapWithCode(err, codex.Internal, "[UnitOfWork] pool.Begin")
 	}

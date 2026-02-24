@@ -7,6 +7,7 @@ import (
 
 	ayaka "github.com/OddKuru/core-accounts/pkg/core"
 	"github.com/OddKuru/core-accounts/pkg/ecosystem"
+	"github.com/OddKuru/core-accounts/pkg/logger"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
 )
@@ -23,6 +24,7 @@ var DefaultUnaryJobEnvKeys = &GrpcJobEnvKeys{
 
 func NewGRPCWithEnv[T any](
 	tracer opentracing.Tracer,
+	logger logger.Logger,
 	keys *GrpcJobEnvKeys,
 	regs ...ecosystem.GrpcRegister[T],
 ) (ayaka.Job[T], error) {

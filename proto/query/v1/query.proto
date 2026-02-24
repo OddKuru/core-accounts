@@ -5,8 +5,8 @@ package query;
 option go_package = "github.com/OddKuru/core-accounts/gogen/query/v1";
 
 enum QueryOrder {
-  ASK = 0;
-  DESK = 1;
+  ASC = 0;
+  DESC = 1;
 }
 
 message QueryData {

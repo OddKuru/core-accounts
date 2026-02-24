@@ -5,6 +5,7 @@ import (
 
 	"github.com/OddEer0/errx"
 	"github.com/OddEer0/errx/codex"
+	"github.com/OddKuru/core-accounts/pkg/logger"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -42,4 +43,21 @@ func ErrorInterceptor(
 		return resp, status.Error(grpcCode, err.Error())
 	}
 	return resp, nil
+}
+
+func LogInterceptor(log logger.Logger) grpc.UnaryServerInterceptor {
+	return func(
+		ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler,
+	) (interface{}, error) {
+		log.Debug(ctx, "request started",
+			logger.String("method", info.FullMethod),
+			logger.Any("req", req),
+		)
+		res, err := handler(ctx, req)
+		log.Debug(ctx, "request finished",
+			logger.String("method", info.FullMethod),
+			logger.Any("res", res),
+		)
+		return res, err
+	}
 }

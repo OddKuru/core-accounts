@@ -41,6 +41,8 @@ const (
 )
 
 type (
+	NoopLogger struct{}
+
 	Logger interface {
 		Log(ctx context.Context, level Level, message string, fields ...Field)
 		Debug(ctx context.Context, message string, fields ...Field)
@@ -58,3 +60,27 @@ type (
 		Value any
 	}
 )
+
+func (n NoopLogger) Log(_ context.Context, _ Level, _ string, _ ...Field) {}
+
+func (n NoopLogger) Debug(_ context.Context, _ string, _ ...Field) {}
+
+func (n NoopLogger) Info(_ context.Context, _ string, _ ...Field) {}
+
+func (n NoopLogger) Warn(_ context.Context, _ string, _ ...Field) {}
+
+func (n NoopLogger) Error(_ context.Context, _ string, _ ...Field) {}
+
+func (n NoopLogger) With(_ ...Field) Logger {
+	return n
+}
+
+func (n NoopLogger) InjectCtx(_ context.Context) context.Context {
+	return context.Background()
+}
+
+func (n NoopLogger) Enabled(_ context.Context, _ Level) bool {
+	return false
+}
+
+var _ Logger = NoopLogger{}

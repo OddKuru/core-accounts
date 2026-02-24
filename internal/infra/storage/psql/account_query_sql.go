@@ -16,4 +16,9 @@ const (
 		JOIN roles r ON r.id = a.role_id
 		WHERE a.id = $1;
 	`
+	AccountCountQuery = `
+		SELECT COUNT(*)
+		FROM accounts
+		WHERE deleted_at IS NULL
+	`
 )

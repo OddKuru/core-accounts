@@ -30,7 +30,7 @@ type (
 		UpdateRoleById(ctx context.Context, id string, role vo.AccountRoleType) error
 
 		GetById(ctx context.Context, id string) (*aggregate.Account, error)
-		GetByQuery(ctx context.Context, query rco.Query) (*rco.DataWithPageCount[*aggregate.Account], error)
+		GetByQuery(ctx context.Context, query rco.Query) (*rco.DataWithPageCount[[]*aggregate.Account], error)
 	}
 
 	UseCase struct {

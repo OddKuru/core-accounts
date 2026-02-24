@@ -24,19 +24,19 @@ const (
 type QueryOrder int32
 
 const (
-	QueryOrder_ASK  QueryOrder = 0
-	QueryOrder_DESK QueryOrder = 1
+	QueryOrder_ASC  QueryOrder = 0
+	QueryOrder_DESC QueryOrder = 1
 )
 
 // Enum value maps for QueryOrder.
 var (
 	QueryOrder_name = map[int32]string{
-		0: "ASK",
-		1: "DESK",
+		0: "ASC",
+		1: "DESC",
 	}
 	QueryOrder_value = map[string]int32{
-		"ASK":  0,
-		"DESK": 1,
+		"ASC":  0,
+		"DESC": 1,
 	}
 )
 
@@ -132,7 +132,7 @@ func (x *QueryData) GetOrderBy() QueryOrder {
 	if x != nil {
 		return x.OrderBy
 	}
-	return QueryOrder_ASK
+	return QueryOrder_ASC
 }
 
 var File_query_v1_query_proto protoreflect.FileDescriptor
@@ -147,8 +147,8 @@ const file_query_v1_query_proto_rawDesc = "" +
 	"\border_by\x18\x04 \x01(\x0e2\x11.query.QueryOrderR\aorderBy*\x1f\n" +
 	"\n" +
 	"QueryOrder\x12\a\n" +
-	"\x03ASK\x10\x00\x12\b\n" +
-	"\x04DESK\x10\x01B1Z/github.com/OddKuru/core-accounts/gogen/query/v1b\x06proto3"
+	"\x03ASC\x10\x00\x12\b\n" +
+	"\x04DESC\x10\x01B1Z/github.com/OddKuru/core-accounts/gogen/query/v1b\x06proto3"
 
 var (
 	file_query_v1_query_proto_rawDescOnce sync.Once

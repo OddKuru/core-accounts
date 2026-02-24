@@ -7,6 +7,7 @@ import (
 
 	ayaka "github.com/OddKuru/core-accounts/pkg/core"
 	"github.com/OddKuru/core-accounts/pkg/ecosystem"
+	"github.com/OddKuru/core-accounts/pkg/logger"
 	grpcPrometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/opentracing/opentracing-go"
 	"github.com/pkg/errors"
@@ -55,13 +56,19 @@ type GRPCVar struct {
 	Address        string
 	RequestTimeout time.Duration
 	Tracer         opentracing.Tracer
+	Logger         logger.Logger
 }
 
 func NewGRPC[T any](v GRPCVar, regs ...ecosystem.GrpcRegister[T]) (ayaka.Job[T], error) {
+	if v.Logger == nil {
+		v.Logger = logger.NoopLogger{}
+	}
+
 	job, err := ecosystem.NewGrpcJobBuilder[T]().
 		Address(v.Address).
 		Interceptors(
 			ErrorInterceptor,
+			LogInterceptor(v.Logger),
 		).
 		RequestTimeout(v.RequestTimeout).
 		Register(regs...).

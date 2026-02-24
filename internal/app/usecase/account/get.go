@@ -22,7 +22,7 @@ func (u *UseCase) GetById(ctx context.Context, id string) (*aggregate.Account, e
 	return acc, nil
 }
 
-func (u *UseCase) GetByQuery(ctx context.Context, query rco.Query) (*rco.DataWithPageCount[*aggregate.Account], error) {
+func (u *UseCase) GetByQuery(ctx context.Context, query rco.Query) (*rco.DataWithPageCount[[]*aggregate.Account], error) {
 	res, err := u.accountQuery.GetByQuery(ctx, query)
 	if err != nil {
 		return nil, errors.Wrap(err, "[UseCase] accountQuery.GetByQuery")

@@ -28,7 +28,7 @@ type (
 )
 
 func (q QueryOrder) Validate() error {
-	return validation.Validate(q, validation.Required, validation.In(Asc, Desc))
+	return validation.Validate(string(q), validation.Required, validation.NotIn(Asc, Desc))
 }
 
 func (q Query) Page() uint {
@@ -61,6 +61,13 @@ func NewQuery(page, limit uint, sortBy string, sortOrder QueryOrder) (Query, err
 
 func (q Query) PaginationOffset() uint {
 	return (q.page - 1) * q.limit
+}
+
+func NewDataWithPageCount[T any](data T, pageCount uint) *DataWithPageCount[T] {
+	return &DataWithPageCount[T]{
+		data:      data,
+		pageCount: pageCount,
+	}
 }
 
 func (d DataWithPageCount[DataType]) Data() DataType {

@@ -34,6 +34,7 @@ func main() {
 			Address:        cont.Config().App.GRPCAddress,
 			RequestTimeout: cont.Config().App.GRPCTimeout,
 			Tracer:         opentracing.NoopTracer{},
+			Logger:         cont.Logger(),
 		},
 		grpcJob,
 	)
