@@ -19,6 +19,29 @@ type (
 	Events []Event
 )
 
+type TestEvent struct {
+	Id         vo.ID
+	TypeF      Type
+	ValueF     any
+	TimestampF time.Time
+}
+
+func (t TestEvent) ID() vo.ID {
+	return t.Id
+}
+
+func (t TestEvent) Type() Type {
+	return t.TypeF
+}
+
+func (t TestEvent) Value() any {
+	return t.ValueF
+}
+
+func (t TestEvent) Timestamp() time.Time {
+	return t.TimestampF
+}
+
 func (e Events) Len() int {
 	return len(e)
 }
