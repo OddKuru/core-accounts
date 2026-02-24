@@ -28,7 +28,8 @@ type (
 )
 
 func (q QueryOrder) Validate() error {
-	return validation.Validate(string(q), validation.Required, validation.NotIn(Asc, Desc))
+	return validation.Validate(string(q), validation.Required,
+		validation.In(string(Asc), string(Desc)))
 }
 
 func (q Query) Page() uint {
